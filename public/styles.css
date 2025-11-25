@@ -1,0 +1,61 @@
+:root {
+    --color-primary: #D97757;
+    --color-secondary: #F4A460;
+    --color-accent: #8B4513;
+    --color-warm: #FFF8DC;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, rgba(217, 119, 87, 0.9), rgba(139, 69, 19, 0.8)),
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200') center/cover;
+    min-height: 90vh;
+}
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.masonry {
+    column-count: 3;
+    column-gap: 1rem;
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .masonry {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .masonry {
+        column-count: 1;
+    }
+}
+
+.whatsapp-btn {
+    background: #25D366;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    background: #128C7E;
+    transform: scale(1.05);
+}
