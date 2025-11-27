@@ -21,7 +21,7 @@ function mostrarError(containerId, mensaje) {
     const container = document.getElementById(containerId);
     if (container) {
         container.innerHTML = `
-            <div class="col-span-full text-center py-12">
+            <div class="text-center py-12 w-full">
                 <div class="text-6xl mb-4">⚠️</div>
                 <p class="text-lg text-gray-600">${mensaje}</p>
                 <p class="text-sm text-gray-500 mt-2">
@@ -32,24 +32,8 @@ function mostrarError(containerId, mensaje) {
     }
 }
 
-/**
- * Muestra un loader en el contenedor especificado
- * @param {string} containerId - ID del contenedor
- */
-function mostrarLoader(containerId) {
-    const container = document.getElementById(containerId);
-    if (container) {
-        container.innerHTML = `
-            <div class="col-span-full text-center py-8">
-                <div class="loading loading-spinner loading-lg text-[#D97757]"></div>
-                <p class="mt-4 text-gray-500">Cargando...</p>
-            </div>
-        `;
-    }
-}
-
 // ==========================================
-// CARGAR MENÚ DE PLATOS
+// CARGAR MENÚ DE PLATOS CON CARRITO
 // ==========================================
 
 /**
@@ -59,11 +43,10 @@ async function cargarMenu() {
     debug('Iniciando carga del menú...');
     
     try {
-        // Obtener todos los platos de la tabla 'platos'
         const { data: platos, error } = await supabase
             .from('platos')
             .select('*')
-            .eq('disponible', true) // Solo platos disponibles
+            .eq('disponible', true)
             .order('nombre', { ascending: true });
 
         if (error) {
@@ -82,9 +65,9 @@ async function cargarMenu() {
         const especiales = platos.filter(p => p.categoria === 'especiales');
 
         // Renderizar cada categoría
-        renderPlatos('comidas-rapidas', comidasRapidas);
-        renderPlatos('almuerzos', almuerzos);
-        renderPlatos('especiales', especiales);
+        renderPlatosHorizontal('comidas-rapidas', comidasRapidas);
+        renderPlatosHorizontal('almuerzos', almuerzos);
+        renderPlatosHorizontal('especiales', especiales);
 
     } catch (error) {
         console.error('💥 Error crítico al cargar menú:', error);
@@ -93,11 +76,11 @@ async function cargarMenu() {
 }
 
 /**
- * Renderiza una lista de platos en el contenedor especificado
+ * Renderiza platos en formato horizontal (scroll)
  * @param {string} containerId - ID del contenedor HTML
  * @param {Array} platos - Array de objetos plato
  */
-function renderPlatos(containerId, platos) {
+function renderPlatosHorizontal(containerId, platos) {
     const container = document.getElementById(containerId);
     
     if (!container) {
@@ -105,10 +88,9 @@ function renderPlatos(containerId, platos) {
         return;
     }
 
-    // Si no hay platos, mostrar mensaje
     if (!platos || platos.length === 0) {
         container.innerHTML = `
-            <div class="col-span-full text-center py-8">
+            <div class="text-center py-8 w-full">
                 <div class="text-5xl mb-4">🍽️</div>
                 <p class="text-gray-500">Próximamente nuevos platos en esta categoría</p>
             </div>
@@ -116,39 +98,63 @@ function renderPlatos(containerId, platos) {
         return;
     }
 
-    // Limpiar contenedor
     container.innerHTML = '';
 
-    // Crear tarjeta para cada plato
     platos.forEach(plato => {
-        const whatsappMsg = `Hola! Quiero pedir: ${plato.nombre} - $${plato.precio.toLocaleString()}`;
-        const whatsappUrl = generarWhatsAppURL(whatsappMsg);
-        
-        // Imagen por defecto si no tiene
         const imagenUrl = plato.imagen_url || 'https://via.placeholder.com/400x300?text=Sin+Imagen';
+        const cantidadEnCarrito = obtenerCantidadEnCarrito(plato.id);
         
         const card = document.createElement('div');
-        card.className = 'card bg-base-100 shadow-xl card-hover';
+        card.className = 'plato-card card bg-base-100 shadow-xl flex-shrink-0';
         card.innerHTML = `
-            <figure class="h-64 overflow-hidden">
+            <figure class="h-48 overflow-hidden">
                 <img src="${imagenUrl}" 
                      alt="${plato.nombre}" 
                      class="w-full h-full object-cover"
                      onerror="this.src='https://via.placeholder.com/400x300?text=Imagen+no+disponible'">
             </figure>
-            <div class="card-body">
-                <h2 class="card-title text-[#8B4513]">${plato.nombre}</h2>
-                <p class="text-gray-600">${plato.descripcion || 'Delicioso plato preparado con amor'}</p>
-                <div class="card-actions justify-between items-center mt-4">
-                    <span class="text-2xl font-bold text-[#D97757]">
+            <div class="card-body p-4">
+                <h2 class="card-title text-[#8B4513] text-lg">${plato.nombre}</h2>
+                <p class="text-gray-600 text-sm line-clamp-2">
+                    ${plato.descripcion || 'Delicioso plato preparado con amor'}
+                </p>
+                <div class="flex justify-between items-center mt-4">
+                    <span class="text-xl font-bold text-[#D97757]">
                         $${plato.precio.toLocaleString('es-CO')}
                     </span>
-                    <a href="${whatsappUrl}" 
-                       class="btn whatsapp-btn text-white" 
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        Pedir 🛒
-                    </a>
+                </div>
+                
+                <!-- Botón Agregar -->
+                <button onclick='agregarAlCarrito(${JSON.stringify(plato).replace(/'/g, "\\'")})'
+                        data-plato-id="${plato.id}"
+                        data-action="add"
+                        class="btn btn-sm bg-[#D97757] hover:bg-[#C86747] text-white w-full mt-2 ${cantidadEnCarrito > 0 ? 'hidden' : ''}">
+                    Agregar al carrito 🛒
+                </button>
+                
+                <!-- Controles de cantidad -->
+                <div data-plato-id="${plato.id}" 
+                     data-action="remove"
+                     class="w-full mt-2 ${cantidadEnCarrito > 0 ? '' : 'hidden'}">
+                    <div class="flex items-center justify-between bg-[#FFF8DC] rounded-lg p-2">
+                        <button onclick="quitarDelCarrito(${plato.id})" 
+                                class="btn btn-sm btn-error">
+                            Quitar
+                        </button>
+                        <div class="cantidad-control">
+                            <button onclick="decrementarCantidad(${plato.id})" 
+                                    class="cantidad-btn bg-gray-300 hover:bg-gray-400">
+                                −
+                            </button>
+                            <span data-plato-cantidad="${plato.id}" class="font-bold text-lg mx-2">
+                                ${cantidadEnCarrito}
+                            </span>
+                            <button onclick="incrementarCantidad(${plato.id})" 
+                                    class="cantidad-btn bg-[#D97757] hover:bg-[#C86747] text-white">
+                                +
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -160,12 +166,85 @@ function renderPlatos(containerId, platos) {
 }
 
 // ==========================================
+// CARGAR PROMOCIONES
+// ==========================================
+
+async function cargarPromociones() {
+    debug('Iniciando carga de promociones...');
+    
+    const container = document.getElementById('promociones-container');
+    
+    if (!container) {
+        console.error('❌ Contenedor de promociones no encontrado');
+        return;
+    }
+    
+    try {
+        const { data: promociones, error } = await supabase
+            .from('promociones')
+            .select('*')
+            .eq('activa', true)
+            .order('orden', { ascending: true });
+
+        if (error) {
+            console.error('❌ Error al cargar promociones:', error);
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <p class="text-lg">No hay promociones disponibles</p>
+                </div>
+            `;
+            return;
+        }
+
+        debug('Promociones cargadas:', promociones);
+
+        if (promociones.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <div class="text-6xl mb-4">🎊</div>
+                    <p class="text-lg">Próximamente nuevas promociones</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = '';
+
+        promociones.forEach(promo => {
+            const card = document.createElement('div');
+            card.className = 'card bg-white/10 backdrop-blur-lg shadow-2xl';
+            card.innerHTML = `
+                <div class="card-body">
+                    <h3 class="card-title text-2xl text-white">${promo.titulo}</h3>
+                    <p class="text-white/90 text-lg">${promo.descripcion}</p>
+                    ${promo.precio ? `
+                        <div class="badge badge-lg bg-yellow-400 text-[#8B4513] font-bold">
+                            $${promo.precio.toLocaleString('es-CO')}
+                        </div>
+                    ` : ''}
+                    ${promo.horario ? `
+                        <p class="text-white/80 mt-2">
+                            🕐 ${promo.horario}
+                        </p>
+                    ` : ''}
+                </div>
+            `;
+            
+            container.appendChild(card);
+        });
+
+        debug(`Renderizadas ${promociones.length} promociones`);
+
+    } catch (error) {
+        console.error('💥 Error crítico al cargar promociones:', error);
+    }
+}
+
+// ==========================================
 // CARGAR GALERÍA DE FOTOS
 // ==========================================
 
-/**
- * Carga las fotos de la galería desde Supabase Storage
- */
 async function cargarGaleria() {
     debug('Iniciando carga de galería...');
     
@@ -258,120 +337,15 @@ async function cargarGaleria() {
 }
 
 // ==========================================
-// CARGAR PROMOCIONES
-// ==========================================
-
-/**
- * Carga las promociones activas desde Supabase
- */
-async function cargarPromociones() {
-    debug('Iniciando carga de promociones...');
-    
-    const container = document.getElementById('promociones-container');
-    
-    if (!container) {
-        console.error('❌ Contenedor de promociones no encontrado');
-        return;
-    }
-    
-    try {
-        const { data: promociones, error } = await supabase
-            .from('promociones')
-            .select('*')
-            .eq('activa', true)
-            .order('orden', { ascending: true });
-
-        if (error) {
-            console.error('❌ Error al cargar promociones:', error);
-            container.innerHTML = `
-                <div class="col-span-full text-center py-12">
-                    <div class="text-6xl mb-4">🎉</div>
-                    <p class="text-lg">No hay promociones disponibles</p>
-                </div>
-            `;
-            return;
-        }
-
-        debug('Promociones cargadas:', promociones);
-
-        if (promociones.length === 0) {
-            container.innerHTML = `
-                <div class="col-span-full text-center py-12">
-                    <div class="text-6xl mb-4">🎊</div>
-                    <p class="text-lg">Próximamente nuevas promociones</p>
-                </div>
-            `;
-            return;
-        }
-
-        // Limpiar contenedor
-        container.innerHTML = '';
-
-        // Crear tarjeta para cada promoción
-        promociones.forEach(promo => {
-            const card = document.createElement('div');
-            card.className = 'card bg-white/10 backdrop-blur-lg shadow-2xl';
-            card.innerHTML = `
-                <div class="card-body">
-                    <h3 class="card-title text-2xl text-white">${promo.titulo}</h3>
-                    <p class="text-white/90 text-lg">${promo.descripcion}</p>
-                    ${promo.precio ? `
-                        <div class="badge badge-lg bg-yellow-400 text-[#8B4513] font-bold">
-                            $${promo.precio.toLocaleString('es-CO')}
-                        </div>
-                    ` : ''}
-                    ${promo.horario ? `
-                        <p class="text-white/80 mt-2">
-                            🕐 ${promo.horario}
-                        </p>
-                    ` : ''}
-                </div>
-            `;
-            
-            container.appendChild(card);
-        });
-
-        debug(`Renderizadas ${promociones.length} promociones`);
-
-    } catch (error) {
-        console.error('💥 Error crítico al cargar promociones:', error);
-    }
-}
-
-// ==========================================
-// SMOOTH SCROLL PARA NAVEGACIÓN
-// ==========================================
-
-function inicializarNavegacion() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
-            }
-        });
-    });
-    debug('Navegación smooth scroll inicializada');
-}
-
-// ==========================================
 // DIAGNÓSTICO DE CONEXIÓN
 // ==========================================
 
-/**
- * Prueba la conexión con Supabase y muestra información de debug
- */
 async function diagnosticarConexion() {
     console.log('🔍 ===== DIAGNÓSTICO DE CONEXIÓN =====');
     console.log('📌 Supabase URL:', CONFIG.SUPABASE_URL);
     console.log('🔑 Supabase Key (primeros 20 caracteres):', 
                 CONFIG.SUPABASE_KEY.substring(0, 20) + '...');
     
-    // Probar conexión al bucket de galería
     try {
         const { data, error } = await supabase.storage
             .from('galeria')
@@ -383,23 +357,11 @@ async function diagnosticarConexion() {
         } else {
             console.log('✅ Conexión con Storage exitosa!');
             console.log('📁 Archivos encontrados:', data.length);
-            if (data.length > 0) {
-                console.log('📋 Primeros archivos:', data.map(f => f.name));
-                
-                // Mostrar URLs de las primeras imágenes
-                data.slice(0, 3).forEach(file => {
-                    const { data: urlData } = supabase.storage
-                        .from('galeria')
-                        .getPublicUrl(file.name);
-                    console.log(`🖼️  ${file.name}: ${urlData.publicUrl}`);
-                });
-            }
         }
     } catch (err) {
         console.error('💥 Error crítico en Storage:', err);
     }
     
-    // Probar conexión a la tabla de platos
     try {
         const { data, error } = await supabase
             .from('platos')
@@ -407,7 +369,6 @@ async function diagnosticarConexion() {
         
         if (error) {
             console.error('❌ Error al conectar con tabla platos:', error);
-            console.log('💡 Solución: Verifica que la tabla "platos" exista');
         } else {
             console.log('✅ Conexión con tabla "platos" exitosa!');
         }
@@ -415,7 +376,6 @@ async function diagnosticarConexion() {
         console.error('💥 Error crítico en tabla platos:', err);
     }
     
-    // Probar conexión a la tabla de promociones
     try {
         const { data, error } = await supabase
             .from('promociones')
@@ -423,7 +383,6 @@ async function diagnosticarConexion() {
         
         if (error) {
             console.error('❌ Error al conectar con tabla promociones:', error);
-            console.log('💡 Solución: Verifica que la tabla "promociones" exista');
         } else {
             console.log('✅ Conexión con tabla "promociones" exitosa!');
         }
@@ -438,26 +397,18 @@ async function diagnosticarConexion() {
 // INICIALIZACIÓN
 // ==========================================
 
-/**
- * Inicializa la aplicación cuando el DOM esté listo
- */
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Iniciando aplicación Cocina Artesanal...');
     
-    // Ejecutar diagnóstico si está en modo debug
     if (CONFIG.DEBUG_MODE) {
         await diagnosticarConexion();
     }
     
-    // Inicializar navegación
-    inicializarNavegacion();
-    
-    // Cargar contenido de forma paralela
     console.log('📥 Cargando contenido...');
     await Promise.all([
         cargarMenu(),
-        cargarGaleria(),
-        cargarPromociones()
+        cargarPromociones(),
+        cargarGaleria()
     ]);
     
     console.log('✅ Aplicación inicializada correctamente');

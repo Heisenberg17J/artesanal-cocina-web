@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artesanal Cocina - Menu</title>
+    <title>Artesanal Cocina - Menú</title>
     
     <!-- Tailwind CSS + DaisyUI -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
@@ -19,6 +19,7 @@
     
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body class="bg-[#FFF8DC]">
     
@@ -37,7 +38,7 @@
                     <li><a href="/galeria.html">Galería</a></li>
                 </ul>
             </div>
-            <a class="btn btn-ghost text-xl font-bold text-[#8B4513]" href="#inicio">
+            <a class="btn btn-ghost text-xl font-bold text-[#8B4513]" href="/index.html">
                 <img src="/assets/img/logo.png" alt="artesanal-logo" class="h-10 mr-2 inline-block">
             </a>
         </div>
@@ -48,17 +49,23 @@
                 <li><a href="/galeria.html">Galería</a></li>
             </ul>
         </div>
-        <div class="navbar-end">
-            <a href="https://wa.me/573001234567?text=Hola!%20Quiero%20hacer%20un%20pedido" 
-               class="btn whatsapp-btn text-white" target="_blank">
+        <div class="navbar-end gap-2">
+            <!-- Botón del Carrito -->
+            <button onclick="abrirCarrito()" class="btn btn-circle btn-ghost relative">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span id="cart-badge" class="cart-badge hidden">0</span>
+            </button>
+            
+            <a href="https://wa.me/573107573527?text=Hola!%20Quiero%20hacer%20un%20pedido" 
+               class="btn whatsapp-btn text-white hidden md:flex" target="_blank">
                 <img src="/assets/img/whatsapp.png" alt="" class="h-6 mr-2 inline-block"> WhatsApp
             </a>
         </div>
     </div>   
     
-    
-    
-    <!-- SECCIÓN 2: MENÚ -->
+    <!-- SECCIÓN MENÚ -->
     <section id="menu" class="py-20 px-4 bg-white">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-4xl md:text-5xl font-bold text-center text-[#8B4513] mb-4">
@@ -73,9 +80,9 @@
                 <h3 class="text-3xl font-bold text-[#D97757] mb-6 flex items-center">
                     <span class="mr-3">🍔</span> Comidas Rápidas
                 </h3>
-                <div id="comidas-rapidas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="comidas-rapidas" class="categoria-scroll flex gap-6 pb-4">
                     <!-- Los platos se cargarán dinámicamente aquí -->
-                    <div class="text-center py-8">
+                    <div class="text-center py-8 w-full">
                         <div class="loading loading-spinner loading-lg text-[#D97757]"></div>
                         <p class="mt-4 text-gray-500">Cargando platos...</p>
                     </div>
@@ -87,8 +94,8 @@
                 <h3 class="text-3xl font-bold text-[#D97757] mb-6 flex items-center">
                     <span class="mr-3">🍽️</span> Almuerzos
                 </h3>
-                <div id="almuerzos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="text-center py-8">
+                <div id="almuerzos" class="categoria-scroll flex gap-6 pb-4">
+                    <div class="text-center py-8 w-full">
                         <div class="loading loading-spinner loading-lg text-[#D97757]"></div>
                         <p class="mt-4 text-gray-500">Cargando platos...</p>
                     </div>
@@ -100,8 +107,8 @@
                 <h3 class="text-3xl font-bold text-[#D97757] mb-6 flex items-center">
                     <span class="mr-3">⭐</span> Especiales del Chef
                 </h3>
-                <div id="especiales" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="text-center py-8">
+                <div id="especiales" class="categoria-scroll flex gap-6 pb-4">
+                    <div class="text-center py-8 w-full">
                         <div class="loading loading-spinner loading-lg text-[#D97757]"></div>
                         <p class="mt-4 text-gray-500">Cargando platos...</p>
                     </div>
@@ -110,7 +117,7 @@
         </div>
     </section>
 
-    <!-- SECCIÓN 4: PROMOCIONES -->
+    <!-- SECCIÓN PROMOCIONES -->
     <section id="promociones" class="py-20 px-4 bg-gradient-to-br from-[#D97757] to-[#8B4513] text-white">
         <div class="max-w-6xl mx-auto">
             <h2 class="text-4xl md:text-5xl font-bold text-center mb-12">
@@ -126,19 +133,53 @@
         </div>
     </section>
     
-        <!-- FOOTER -->
+    <!-- MODAL DEL CARRITO -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-box max-w-2xl">
+            <h3 class="font-bold text-2xl text-[#8B4513] mb-4">
+                🛒 Tu Pedido
+            </h3>
+            
+            <div id="cart-items" class="space-y-4 max-h-96 overflow-y-auto mb-6">
+                <!-- Los items del carrito se cargarán aquí -->
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-xl font-bold">Total:</span>
+                <span id="cart-total" class="text-3xl font-bold text-[#D97757]">$0</span>
+            </div>
+            
+            <div class="modal-action flex-col sm:flex-row gap-2">
+                <button onclick="cerrarCarrito()" class="btn btn-ghost">
+                    Seguir Comprando
+                </button>
+                <button onclick="vaciarCarrito()" class="btn btn-error btn-outline">
+                    Vaciar Carrito
+                </button>
+                <button onclick="enviarPedidoWhatsApp()" class="btn whatsapp-btn text-white">
+                    <img src="/assets/img/whatsapp.png" alt="" class="h-6 mr-2 inline-block">
+                    Enviar Pedido
+                </button>
+            </div>
+        </div>
+        <div class="modal-backdrop" onclick="cerrarCarrito()"></div>
+    </div>
+    
+    <!-- FOOTER -->
     <footer class="footer footer-center p-10 bg-[#8B4513] text-white">
         <div>
             <p class="font-bold text-xl">
                 Cocina Artesanal 🍳
             </p> 
-            <p></p>
             <p>Copyright © 2025 - Todos los derechos reservados</p>
         </div>
     </footer>
 
     <!-- SCRIPTS -->
-    <script src="/assets/scripts/app.js"></script>
     <script src="/assets/scripts/config.js"></script>
+    <script src="/assets/scripts/carrito.js"></script>
+    <script src="/assets/scripts/app.js"></script>
 </body>
 </html>
