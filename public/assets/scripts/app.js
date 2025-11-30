@@ -121,7 +121,7 @@ function renderPlatosHorizontal(containerId, platos) {
             </figure>
             <div class="card-body p-4">
                 <h2 class="card-title text-[#8B4513] text-lg">${plato.nombre}</h2>
-                <p class="text-gray-600 text-sm line-clamp-2">
+                <p class="text-gray-600 text-sm line-clamp-3">
                     ${plato.descripcion || 'Delicioso plato preparado con amor'}
                 </p>
                 <div class="flex justify-between items-center mt-4">
@@ -419,4 +419,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     console.log('✅ Aplicación inicializada correctamente');
     console.log('💡 TIP: Presiona F12 para ver información de debug');
+
 });
