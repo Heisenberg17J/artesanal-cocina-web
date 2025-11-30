@@ -51,23 +51,29 @@ async function cargarMenu() {
 
         if (error) {
             console.error('❌ Error al cargar platos:', error);
-            mostrarError('comidas-rapidas', 'No se pudieron cargar los platos');
-            mostrarError('almuerzos', 'No se pudieron cargar los platos');
-            mostrarError('especiales', 'No se pudieron cargar los platos');
+            mostrarError('entradas', 'No se pudo cargar el menú');
+            mostrarError('arroces', 'No se pudo cargar el menú');
+            mostrarError('ensaladas', 'No se pudo cargar el menú');
+            mostrarError('carnes-tradicionales', 'No se pudo cargar el menú');
+            mostrarError('carnes-especiales', 'No se pudo cargar el menú');
             return;
         }
 
         debug('Platos cargados:', platos);
 
         // Separar platos por categoría
-        const comidasRapidas = platos.filter(p => p.categoria === 'comidas_rapidas');
-        const almuerzos = platos.filter(p => p.categoria === 'almuerzos');
-        const especiales = platos.filter(p => p.categoria === 'especiales');
+        const entradas = platos.filter(p => p.categoria === 'entradas');
+        const arroces = platos.filter(p => p.categoria === 'arroces');
+        const ensaladas = platos.filter(p => p.categoria === 'ensaladas');
+        const carnes_tradicionales = platos.filter(p => p.categoria === 'carnes-tradicionales');
+        const carnes_especiales = platos.filter(p => p.categoria === 'carnes-especiales');
 
         // Renderizar cada categoría
-        renderPlatosHorizontal('comidas-rapidas', comidasRapidas);
-        renderPlatosHorizontal('almuerzos', almuerzos);
-        renderPlatosHorizontal('especiales', especiales);
+        renderPlatosHorizontal('entradas', entradas);
+        renderPlatosHorizontal('arroces', arroces);
+        renderPlatosHorizontal('ensaladas', ensaladas);
+        renderPlatosHorizontal('carnes-tradicionales', carnes_tradicionales);
+        renderPlatosHorizontal('carnes-especiales', carnes_especiales);
 
     } catch (error) {
         console.error('💥 Error crítico al cargar menú:', error);
