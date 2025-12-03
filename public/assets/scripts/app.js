@@ -47,6 +47,7 @@ async function cargarMenu() {
             .from('platos')
             .select('*')
             .eq('disponible', true)
+            .order('orden', { ascending: true})
             .order('nombre', { ascending: true });
 
         if (error) {
@@ -421,3 +422,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('💡 TIP: Presiona F12 para ver información de debug');
 
 });
+
