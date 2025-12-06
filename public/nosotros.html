@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artesanal Cocina - Sobre Nosotros</title>
+    
+    <!-- Tailwind CSS + DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="styles.css">
+
+        
+
+</head>
+<body style="background-color: var(--color-cream)">
+    
+    <!-- NAVBAR -->
+    <div class="navbar bg-white shadow-lg sticky top-0 z-50">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <label tabindex="0" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+                    </svg>
+                </label>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a href="/index.html">Inicio</a></li>
+                    <li><a href="/menu.html">Haz Tu Pedido</a></li>
+                    <li><a href="/galeria.html">Galería</a></li>
+                    <li><a href="/nosotros.html">Nosotros</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="navbar-center lg:pr-8">
+            <a href="/index.html" class="text-xl font-bold" style="color: var(--color-dark)">
+                <img src="/assets/img/logo-negro.png" alt="artesanal-logo" class="h-14">
+            </a>
+        </div>
+        
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1">
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="/menu.html">Haz Tu Pedido</a></li>
+                <li><a href="/galeria.html">Galería</a></li>
+                <li><a href="/nosotros.html">Nosotros</a></li>
+            </ul>
+        </div>
+        
+        <div class="navbar-end gap-2">
+            <button onclick="window.location.href='/menu.html'" class="btn btn-circle btn-ghost relative">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero-nosotros relative text-white py-32">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 text-center">
+            <div class="floating mb-6">
+                <div class="inline-block px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wide"
+                     style="background: var(--color-green); color: var(--color-dark)">
+                    ✨ Conócenos Mejor
+                </div>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 drop-shadow-2xl">
+                Nuestra Historia
+            </h1>
+            <div class="section-divider mb-6"></div>
+            <p class="text-2xl md:text-3xl max-w-4xl mx-auto font-light leading-relaxed">
+                Una tradición familiar que se convirtió en pasión,<br>
+                llevando sabor casero a cada hogar desde 2017
+            </p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: NUESTRA HISTORIA -->
+    <section class="py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-4"
+                         style="background: var(--color-cream); color: var(--color-orange)">
+                        📖 El Comienzo
+                    </div>
+                    <h2 class="text-5xl font-bold mb-6" style="color: var(--color-dark)">
+                        Todo Comenzó con un Sueño
+                    </h2>
+                    <div class="section-divider mb-8" style="margin: 0"></div>
+                    <div class="space-y-6 text-gray-700 text-lg leading-relaxed">
+                        <p class="text-xl" style="color: var(--color-brown)">
+                            Artesanal nació en 2017, en un momento en el que la vida puso una necesidad sobre la mesa:
+                            ayudar a alguien que lo necesitaba.
+                            No como un negocio, no como un plan… sino como un acto de solidaridad. 
+                        </p>
+                        <p>
+                            En casa había una cocinera con un talento especial:
+                            esas manos que no solo preparan comida, sino que curan, unen y reconfortan.
+                            Alguien capaz de convertir ingredientes sencillos en sabores que llenan el alma.
+                        </p>
+                        <p>
+                            En esa época, muchas familias vivían en medio de la inmediatez, sin tiempo para preparar una cena completa.
+                            Entonces nació una pregunta que dio origen a todo:
+                            ¿Y si devolvemos lo tradicional en medio de la prisa?
+                            ¿Y si ofrecemos comida casera, auténtica y completa, lista para reunir a las familias alrededor de la mesa?
+                        </p>
+                        <p>
+                            Así se creó Artesanal. Representando solidaridad, unión y el valor de volver al origen:
+                            al arte de cocinar con calma, a las recetas que atraviesan generaciones,
+                            y a la conexión que solo se logra cuando la comida se prepara con manos y corazón.
+                        </p>
+                        <div class="flex gap-11 mt-8">
+                            <div class="px-6 py-4 rounded-lg text-center" style="background: var(--color-cream)">
+                                <div class="text-3xl font-bold" style="color: var(--color-orange)">8+</div>
+                                <div class="text-sm" style="color: var(--color-brown)">Años de Experiencia</div>
+                            </div>
+                            <div class="px-6 py-4 rounded-lg text-center" style="background: var(--color-cream)">
+                                <div class="text-3xl font-bold" style="color: var(--color-orange)">1000+</div>
+                                <div class="text-sm" style="color: var(--color-brown)">Clientes Satisfechos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="/assets/img/historia1.png" 
+                             alt="Cocina familiar" 
+                             class="rounded-2xl shadow-2xl w-full h-64 object-cover transform hover:scale-105 transition">
+                        <img src="/assets/img/historia2.png" 
+                             alt="Chef" 
+                             class="rounded-2xl shadow-2xl w-full h-64 object-cover transform hover:scale-105 transition mt-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: NUESTROS VALORES -->
+    <section class="py-20 px-4" style="background: linear-gradient(180deg, var(--color-cream) 0%, white 100%)">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-4"
+                     style="background: var(--color-green); color: var(--color-dark)">
+                    💎 Nuestros Pilares
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold mb-4" style="color: var(--color-dark)">
+                    Lo Que Nos Define
+                </h2>
+                <div class="section-divider mb-6"></div>
+                <p class="text-xl max-w-2xl mx-auto" style="color: var(--color-brown)">
+                    Estos son los valores que guían cada plato que preparamos
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Valor 1 -->
+                <div class="value-card rounded-2xl shadow-xl p-8">
+                    <div class="text-7xl mb-6 text-center">❤️</div>
+                    <h3 class="text-2xl font-bold text-center mb-4" style="color: var(--color-orange)">
+                        Amor en Cada Plato
+                    </h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Preparamos cada comida como si fuera para nuestra propia familia, 
+                        con dedicación y cariño en cada ingrediente seleccionado.
+                    </p>
+                </div>
+
+                <!-- Valor 2 -->
+                <div class="value-card rounded-2xl shadow-xl p-8">
+                    <div class="text-7xl mb-6 text-center">🌿</div>
+                    <h3 class="text-2xl font-bold text-center mb-4" style="color: var(--color-orange)">
+                        Ingredientes Frescos
+                    </h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Seleccionamos cuidadosamente los mejores productos locales 
+                        para garantizar sabor y calidad en cada bocado.
+                    </p>
+                </div>
+
+                <!-- Valor 3 -->
+                <div class="value-card rounded-2xl shadow-xl p-8">
+                    <div class="text-7xl mb-6 text-center">🏆</div>
+                    <h3 class="text-2xl font-bold text-center mb-4" style="color: var(--color-orange)">
+                        Excelencia y Pasión
+                    </h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Buscamos constantemente mejorar y ofrecer experiencias 
+                        culinarias que superen las expectativas de nuestros clientes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: LÍNEA DE TIEMPO -->
+    <section class="py-20 px-4" style="background-color: var(--color-cream)">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-4"
+                     style="background: var(--color-orange); color: white">
+                    📅 Nuestra Trayectoria
+                </div>
+                <h2 class="text-5xl md:text-6xl font-bold mb-4" style="color: var(--color-dark)">
+                    Nuestro Camino
+                </h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="space-y-12">
+                <!-- 2017 -->
+                <div class="timeline-item pl-12">
+                    <div class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-3" 
+                         style="background: var(--color-green); color: var(--color-dark)">
+                        2017
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="font-bold text-2xl mb-3" style="color: var(--color-orange)">
+                            Los Primeros Pasos
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Abrimos nuestras puertas con una visión clara: ofrecer comida casera 
+                            de calidad con el sabor auténtico que nos caracteriza.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2019 -->
+                <div class="timeline-item pl-12">
+                    <div class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-3" 
+                         style="background: var(--color-green); color: var(--color-dark)">
+                        2019
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="font-bold text-2xl mb-3" style="color: var(--color-orange)">
+                            Crecimiento y Expansión
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Ampliamos nuestro menú y comenzamos a ser reconocidos como 
+                            referente de comida casera en la ciudad.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2021 -->
+                <div class="timeline-item pl-12">
+                    <div class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-3" 
+                         style="background: var(--color-green); color: var(--color-dark)">
+                        2021
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="font-bold text-2xl mb-3" style="color: var(--color-orange)">
+                            Transformación Digital
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Nos adaptamos a los nuevos tiempos implementando pedidos en línea 
+                            para llegar a más hogares.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2025 -->
+                <div class="timeline-item pl-12">
+                    <div class="inline-block px-4 py-2 rounded-full text-sm font-bold mb-3" 
+                         style="background: var(--color-green); color: var(--color-dark)">
+                        2025
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="font-bold text-2xl mb-3" style="color: var(--color-orange)">
+                            El Presente
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Hoy continuamos honrando nuestra pasión por la cocina, 
+                            preparando cada plato con el mismo amor del primer día.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: FRASE INSPIRADORA -->
+    <section class="py-16 px-4 relative overflow-hidden" 
+             style="background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-brown) 50%, var(--color-dark) 100%)">
+        <div class="relative z-10 max-w-4xl mx-auto text-center text-white">
+            <div class="floating mb-8 pl-8 "><img src="/assets/img/logo-sin-letra.png" alt=""></div>
+            <blockquote class="text-4xl md:text-5xl font-bold italic mb-8 leading-tight">
+                "La comida casera no es solo nutrición,<br>
+                es un abrazo en cada bocado"
+            </blockquote>
+            <div class="section-divider mb-6"></div>
+            <p class="text-2xl font-light">- El corazón de Artesanal Cocina</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="text-white" style="background-color: var(--color-dark)">
+        <div class="container mx-auto px-4 py-12 md:py-16 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 mb-8 max-w-4xl mx-auto">
+                <div class="text-center md:text-center">
+                    <div class="flex justify-center mb-4">
+                        <img src="/assets/img/logo-blanco.png" alt="Logo" class="h-16">
+                    </div>
+                    <p class="text-gray-300 text-sm md:text-base">
+                        Sabor casero desde 2017. Preparamos cada plato con amor y dedicación.
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <h4 class="font-bold text-lg mb-6">Contacto</h4>
+                    <ul class="space-y-3 text-gray-300 text-sm md:text-base">
+                        <li class="flex items-center justify-center gap-2">
+                            <img src="/assets/img/ubicacion.png" class="h-4 w-4" alt=""> 
+                            <span>Cali, Valle del Cauca</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-2">
+                            <img src="/assets/img/whats-cafe.png" class="h-4 w-4" alt=""> 
+                            <span>+57 310 757 3527</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-2">
+                            <img src="/assets/img/reloj.png" class="h-4 w-4" alt=""> 
+                            <span>Lun-Sáb: 11am - 8pm</span>
+                        </li>
+                    </ul>
+                    <div class="flex gap-3 mt-6 justify-center">
+                        <a href="https://www.facebook.com/profile.php?id=61569994515915" target="_blank" 
+                           class="btn btn-circle btn-sm bg-white border-0 transition-colors" style="color: var(--color-dark)">
+                            <img src="/assets/img/fb.png" class="h-5" alt="Facebook">
+                        </a>
+                        <a href="https://www.instagram.com/arte_sanalcocina/" target="_blank" 
+                           class="btn btn-circle btn-sm bg-white border-0 transition-colors" style="color: var(--color-dark)">
+                            <img src="/assets/img/instagram.png" class="h-5" alt="Instagram">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/20 pt-6 text-center text-gray-300 text-sm md:text-base">
+                <p>Copyright © 2025 Artesanal Cocina - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="/assets/scripts/config.js"></script>
+    <script src="/assets/scripts/carrito.js"></script>
+    <script src="/assets/scripts/app.js"></script>
+</body>
+</html>

@@ -3,6 +3,15 @@
     --color-secondary: #F4A460;
     --color-accent: #8B4513;
     --color-warm: #FFF8DC;
+    --color-cream: #EDDBC0;
+    --color-gold: #E2AB65;
+    --color-orange: #E38324;
+    --color-brown: #AE6C3D;
+    --color-dark: #432c05;
+    --color-red: #bf4031;
+    --color-green: #b4d471;
+    --color-dark-green: #558044;
+        
 }
 
 body {
@@ -14,8 +23,8 @@ h1, h2, h3 {
 }
 
 .hero-section {
-    background: linear-gradient(135deg, rgba(217, 119, 87, 0.9), rgba(139, 69, 19, 0.8)),
-                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200') center/cover;
+    background: linear-gradient(135deg, rgba(97, 78, 68, 0.9), rgba(0, 0, 0, 0.8)),
+                url("/assets/img/Banquete1.png") center/cover;
     min-height: 90vh;
 }
 
@@ -50,22 +59,13 @@ h1, h2, h3 {
     }
 }
 
-.whatsapp-btn {
-    background: #25D366;
-    transition: all 0.3s ease;
-}
-
-.whatsapp-btn:hover {
-    background: #128C7E;
-    transform: scale(1.05);
-}
 
 /* Estilos adicionales para el carrito */
 .cart-badge {
     position: absolute;
     top: -8px;
     right: -8px;
-    background: #EF4444;
+    background: #E38324;
     color: white;
     border-radius: 50%;
     width: 24px;
@@ -100,7 +100,7 @@ h1, h2, h3 {
 }
 
 .categoria-scroll::-webkit-scrollbar-thumb {
-    background: #D97757;
+    background: #E38324;
     border-radius: 10px;
 }
 
@@ -128,4 +128,151 @@ h1, h2, h3 {
 
 .modal-overlay {
     backdrop-filter: blur(4px);
+}
+
+
+.combo-card {
+    background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-brown) 100%);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.combo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(227, 131, 36, 0.9) 0%, rgba(174, 108, 61, 0.9) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.combo-card:hover::before {
+    opacity: 1;
+}
+
+.combo-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(67, 44, 5, 0.3);
+}
+
+.combo-badge {
+    background: var(--color-red);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 1rem 0;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+.combo-price {
+    background: var(--color-green);
+    color: var(--color-dark);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    font-size: 1.75rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.whatsapp-btn {
+    background: var(--color-dark-green) !important;
+}
+
+.whatsapp-btn:hover {
+    background: var(--color-green) !important;
+    color: var(--color-dark) !important;
+}
+
+.hero-nosotros {
+    background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-brown) 50%, var(--color-dark) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-nosotros::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+    animation: movePattern 20s linear infinite;
+}
+
+@keyframes movePattern {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100px); }
+}
+
+.value-card {
+    transition: all 0.3s ease;
+    background: white;
+    border-top: 4px solid var(--color-orange);
+}
+
+.value-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(227, 131, 36, 0.2);
+    border-top-color: var(--color-green);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 3px solid var(--color-orange);
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 0;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--color-green);
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px var(--color-orange);
+}
+
+.team-card {
+    transition: all 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-15px);
+}
+
+.team-card:hover .team-avatar {
+    box-shadow: 0 15px 30px rgba(227, 131, 36, 0.4);
+    transform: scale(1.1);
+}
+
+.team-avatar {
+    transition: all 0.3s ease;
+}
+
+.section-divider {
+    height: 3px;
+    width: 100px;
+    background: linear-gradient(to right, var(--color-orange), var(--color-green));
+    margin: 0 auto;
+}
+
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
 }

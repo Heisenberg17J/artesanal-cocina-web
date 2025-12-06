@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizar Orden de Platos</title>
+    
+    <!-- Tailwind CSS + DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- SortableJS para drag & drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    
+    <style>
+        .sortable-ghost {
+            opacity: 0.4;
+            background: #f0f0f0;
+        }
+        
+        .plato-item {
+            transition: all 0.3s ease;
+            cursor: move;
+        }
+        
+        .plato-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .drag-handle {
+            cursor: grab;
+        }
+        
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h1 class="text-3xl font-bold text-[#8B4513] mb-2">
+                📋 Organizar Orden de Platos
+            </h1>
+            <p class="text-gray-600">
+                Arrastra y suelta los platos para cambiar su orden. Los cambios se guardan automáticamente.
+            </p>
+            <div class="mt-4">
+                <a href="/menu.html" class="btn btn-sm btn-outline">
+                    ← Volver al Menú
+                </a>
+            </div>
+        </div>
+
+        <!-- Tabs para categorías -->
+        <div class="tabs tabs-boxed bg-white rounded-lg shadow mb-6 p-2">
+            <a class="tab tab-active" onclick="cambiarCategoria('entradas', this)">
+                Entradas
+            </a>
+            <a class="tab" onclick="cambiarCategoria('arroces', this)">
+                🍽️ arroces
+            </a>
+            <a class="tab" onclick="cambiarCategoria('carnes-tradicionales', this)">
+                Carnes
+            </a>
+        </div>
+
+        <!-- Lista de platos -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div id="platos-container" class="space-y-3">
+                <div class="text-center py-12">
+                    <div class="loading loading-spinner loading-lg text-[#D97757]"></div>
+                    <p class="mt-4 text-gray-500">Cargando platos...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instrucciones -->
+        <div class="alert alert-info mt-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+                <h3 class="font-bold">💡 Cómo usar:</h3>
+                <div class="text-sm">
+                    <p>• Haz clic y arrastra el ícono ⋮⋮ para mover los platos</p>
+                    <p>• El orden se guarda automáticamente en Supabase</p>
+                    <p>• Los cambios se reflejan inmediatamente en el menú</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/assets/scripts/config.js"></script>
+    
+    <script>
+        let categoriaActual = 'entradas';
+        let sortableInstance = null;
+
+        /**
+         * Carga los platos de una categoría
+         */
+        async function cargarPlatos(categoria) {
+            const container = document.getElementById('platos-container');
+            container.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="loading loading-spinner loading-lg text-[#D97757]"></div>
+                    <p class="mt-4 text-gray-500">Cargando platos...</p>
+                </div>
+            `;
+
+            try {
+                const { data: platos, error } = await supabase
+                    .from('platos')
+                    .select('*')
+                    .eq('categoria', categoria)
+                    .order('orden', { ascending: true });
+
+                if (error) throw error;
+
+                if (platos.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-12">
+                            <div class="text-6xl mb-4">🍽️</div>
+                            <p class="text-gray-500">No hay platos en esta categoría</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                renderizarPlatos(platos);
+                inicializarDragAndDrop();
+
+            } catch (error) {
+                console.error('Error al cargar platos:', error);
+                container.innerHTML = `
+                    <div class="alert alert-error">
+                        <span>Error al cargar los platos. Verifica la conexión con Supabase.</span>
+                    </div>
+                `;
+            }
+        }
+
+        /**
+         * Renderiza los platos en la lista
+         */
+        function renderizarPlatos(platos) {
+            const container = document.getElementById('platos-container');
+            container.innerHTML = '';
+
+            platos.forEach((plato, index) => {
+                const platoDiv = document.createElement('div');
+                platoDiv.className = 'plato-item flex items-center gap-4 bg-base-200 p-4 rounded-lg';
+                platoDiv.dataset.id = plato.id;
+                platoDiv.dataset.orden = plato.orden || index;
+                
+                platoDiv.innerHTML = `
+                    <!-- Drag Handle -->
+                    <div class="drag-handle text-2xl text-gray-400 hover:text-gray-600">
+                        ⋮⋮
+                    </div>
+
+                    <!-- Número de orden -->
+                    <div class="badge badge-lg badge-primary font-bold">
+                        ${index + 1}
+                    </div>
+
+                    <!-- Imagen -->
+                    <img src="${plato.imagen_url || 'https://via.placeholder.com/80x80'}" 
+                         alt="${plato.nombre}"
+                         class="w-20 h-20 object-cover rounded-lg"
+                         onerror="this.src='https://via.placeholder.com/80x80'">
+
+                    <!-- Información -->
+                    <div class="flex-1">
+                        <h3 class="font-bold text-[#8B4513]">${plato.nombre}</h3>
+                        <p class="text-sm text-gray-600 line-clamp-1">${plato.descripcion || ''}</p>
+                        <p class="text-[#D97757] font-semibold mt-1">$${plato.precio.toLocaleString('es-CO')}</p>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="badge ${plato.disponible ? 'badge-success' : 'badge-error'}">
+                        ${plato.disponible ? 'Disponible' : 'No disponible'}
+                    </div>
+                `;
+
+                container.appendChild(platoDiv);
+            });
+        }
+
+        /**
+         * Inicializa el drag and drop
+         */
+        function inicializarDragAndDrop() {
+            const container = document.getElementById('platos-container');
+            
+            if (sortableInstance) {
+                sortableInstance.destroy();
+            }
+
+            sortableInstance = Sortable.create(container, {
+                animation: 150,
+                handle: '.drag-handle',
+                ghostClass: 'sortable-ghost',
+                onEnd: async function(evt) {
+                    await guardarNuevoOrden();
+                }
+            });
+        }
+
+        /**
+         * Guarda el nuevo orden en Supabase
+         */
+        async function guardarNuevoOrden() {
+            const items = document.querySelectorAll('.plato-item');
+            const updates = [];
+
+            items.forEach((item, index) => {
+                const platoId = parseInt(item.dataset.id);
+                const nuevoOrden = index + 1;
+                
+                updates.push({
+                    id: platoId,
+                    orden: nuevoOrden
+                });
+            });
+
+            try {
+                // Actualizar cada plato
+                for (const update of updates) {
+                    const { error } = await supabase
+                        .from('platos')
+                        .update({ orden: update.orden })
+                        .eq('id', update.id);
+
+                    if (error) throw error;
+                }
+
+                // Mostrar notificación de éxito
+                mostrarNotificacion('✅ Orden guardado correctamente', 'success');
+
+                // Actualizar los números de orden visualmente
+                items.forEach((item, index) => {
+                    const badge = item.querySelector('.badge-primary');
+                    badge.textContent = index + 1;
+                });
+
+            } catch (error) {
+                console.error('Error al guardar orden:', error);
+                mostrarNotificacion('❌ Error al guardar el orden', 'error');
+            }
+        }
+
+        /**
+         * Cambia la categoría activa
+         */
+        function cambiarCategoria(categoria, tab) {
+            // Actualizar tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab-active'));
+            tab.classList.add('tab-active');
+
+            // Cargar platos de la nueva categoría
+            categoriaActual = categoria;
+            cargarPlatos(categoria);
+        }
+
+        /**
+         * Muestra una notificación
+         */
+        function mostrarNotificacion(mensaje, tipo = 'success') {
+            const colores = {
+                success: 'alert-success',
+                error: 'alert-error',
+                info: 'alert-info'
+            };
+
+            const notif = document.createElement('div');
+            notif.className = `alert ${colores[tipo]} fixed top-4 right-4 w-auto max-w-md shadow-lg z-50`;
+            notif.innerHTML = `<span>${mensaje}</span>`;
+
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transition = 'opacity 0.3s';
+                setTimeout(() => notif.remove(), 300);
+            }, 2500);
+        }
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarPlatos(categoriaActual);
+        });
+    </script>
+</body>
+</html>

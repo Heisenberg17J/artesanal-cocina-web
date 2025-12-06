@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-[#FFF8DC]">
-    
+
     <!-- NAVBAR -->
     <div class="navbar bg-white shadow-lg sticky top-0 z-50">
         <div class="navbar-start">
@@ -33,143 +33,200 @@
                 </label>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                     <li><a href="/index.html">Inicio</a></li>
-                    <li><a href="/menu.html">Menú</a></li>
+                    <li><a href="/menu.html">Haz Tu Pedido</a></li>
                     <li><a href="/galeria.html">Galería</a></li>
+                    <li><a href="/nosotros.html">Nosotros</a></li>
                 </ul>
             </div>
-            <a class="btn btn-ghost text-xl font-bold text-[#8B4513]" href="#inicio">
-                <img src="/assets/img/logo.png" alt="artesanal-logo" class="h-10 mr-2 inline-block">
+        </div>
+        
+        <div class="navbar-center lg:pr-8">
+            <a href="#inicio" class="text-xl font-bold text-[#8B4513]">
+                <img src="/assets/img/logo-negro.png" alt="artesanal-logo" class="h-14">
             </a>
         </div>
+        
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
                 <li><a href="/index.html">Inicio</a></li>
-                <li><a href="/menu.html">Menú</a></li>
+                <li><a href="/menu.html">Haz Tu Pedido</a></li>
                 <li><a href="/galeria.html">Galería</a></li>
+                <li><a href="/nosotros.html">Nosotros</a></li>
             </ul>
         </div>
-        <div class="navbar-end">
-            <a href="https://wa.me/573001234567?text=Hola!%20Quiero%20hacer%20un%20pedido" 
-               class="btn whatsapp-btn text-white" target="_blank">
-                <img src="/assets/img/whatsapp.png" alt="" class="h-6 mr-2 inline-block"> WhatsApp
-            </a>
+        
+        <div class="navbar-end gap-2">
+            <!-- Botón del Carrito -->
+            <button onclick="abrirCarrito()" class="btn btn-circle btn-ghost relative">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span id="cart-badge" class="cart-badge hidden">0</span>
+            </button>
         </div>
     </div>
+    
 
-    <!-- SECCIÓN 1: HERO / INICIO -->
-    <section id="inicio" class="hero-section flex items-center justify-center text-white">
-        <div class="text-center px-4 max-w-4xl">
+    <!-- HERO SECTION -->
+    <section id="inicio" class="hero-section relative flex items-center justify-center text-white min-h-screen">
+        <div class="absolute inset-0 bg-gradient-to-br from-[#D9775]/90 to-[#8B4513]/90"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <img src="/assets/img/logo-sin-letra.png" alt="Logo" class="mx-auto mb-8 h-40 drop-shadow-2xl pl-4">
+
             <h1 class="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">
-                Sabor Casero, Amor de Familia
+                Disfruta Tus Cenas Con Artesanal
             </h1>
-            <p class="text-xl md:text-2xl mb-8 font-light drop-shadow">
-                Cada plato está preparado con ingredientes frescos y recetas transmitidas de generación en generación. 
-                Disfruta de la auténtica comida artesanal en la comodidad de tu hogar.
-            </p>
-            <a href="https://wa.me/573001234567?text=Hola!%20Quiero%20hacer%20un%20pedido" 
-               class="btn btn-lg whatsapp-btn text-white text-x1 px-8 py-4 rounded-full shadow-2xl" target="_blank">
-            <div class="flex items-center w-full justify-start sm:justify-center">
-                <img src="/assets/img/whatsapp.png" alt="" class="h-8 mr-3">
-                <span class="text-base sm:text-lg">Pedir Ahora por WhatsApp</span>
-            </div>
+            <a href="/menu.html" class="btn btn-lg bg-white text-[#8B4513] hover:bg-gray-100 text-xl px-8 py-4 rounded-full shadow-2xl border-0">
+                Ver Nuestro Menú
             </a>
         </div>
     </section>
 
-    <!-- SECCIÓN 5: NUESTRA HISTORIA -->
-    <section id="historia" class="py-20 px-4 bg-white">
-        <div class="max-w-5xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" 
-                         alt="Familia cocinando" 
-                         class="rounded-2xl shadow-2xl">
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-20 px-4 bg-white">
+        <div class="container mx-auto max-w-7xl">
+            <!-- Nuestra Historia -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-justify">
+                <div class="order-2 md:order-1 grid grid-cols-2 gap-4">
+                    <img src="/assets/img/historia1.png" 
+                         alt="Cocina" 
+                         class="w-full h-66 object-cover rounded-lg shadow-xl">
+                    <img src="/assets/img/historia2.png" 
+                         alt="Chef" 
+                         class="w-full h-66  object-cover rounded-lg shadow-xl">
                 </div>
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-[#8B4513] mb-6">
-                        Nuestra Historia
-                    </h2>
-                    <div class="space-y-4 text-gray-700 text-lg leading-relaxed">
-                        <p>
-                            Todo comenzó en la cocina de la abuela María, donde las recetas se transmitían 
-                            de generación en generación, no con medidas exactas, sino con el corazón y la experiencia.
-                        </p>
-                        <p>
-                            Hace más de 30 años, nuestra familia decidió compartir estos sabores auténticos 
-                            con la comunidad. Lo que empezó como almuerzos para vecinos, se convirtió en 
-                            una tradición que hoy continúa con la misma pasión y dedicación.
-                        </p>
-                        <p>
-                            Cada plato que preparamos lleva el amor y el cuidado que aprendimos en esa cocina 
-                            familiar. Usamos ingredientes frescos, técnicas artesanales y, sobre todo, 
-                            ponemos el corazón en cada preparación.
-                        </p>
-                        <p class="font-semibold text-[#D97757]">
-                            "La comida casera no es solo nutrición, es un abrazo en cada bocado."
-                        </p>
-                    </div>
+                <div class="order-1 md:order-2">
+                    <h6 class="text-[#D97757] font-semibold uppercase tracking-wide mb-2">Somos artesanal</h6>
+                    <h3 class="text-4xl font-bold text-[#8B4513] mb-6">Cocina Tradicional</h3>
+                    <p class="text-gray-700 text-lg leading-relaxed mb-4">
+                        Todo comenzó en el año 2009, cuando nuestra familia decidió mantener vivas las recetas tradicionales
+                        colombianas preparando cenas navideñas, cumpleaños y matrimonios para nuestros seres queridos.
+                        Lo que inició como una forma de reunirnos alrededor de la mesa, pronto se convirtió en una manera de compartir con otros la calidez, los aromas y la historia de nuestra cocina.
+                    </p>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        Con los años, este proyecto familiar ha crecido sin perder su esencia:
+                         cada plato conserva ese toque artesanal que nos caracteriza, elaborado con dedicación y respeto por los sabores de tradición.
+                    </p>
+                    <a href="/nosotros.html" class="btn btn-outline border-[#AE6C3D] text-[#AE6C3D] hover:bg-[#AE6C3D] hover:text-white mt-6">
+                        Conoce Más Sobre Nosotros
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECCIÓN 6: CONTACTO -->
-    <section id="contacto" class="py-20 px-4 bg-[#FFF8DC]">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl md:text-5xl font-bold text-[#8B4513] mb-6">
-                ¡Estamos Aquí Para Ti!
-            </h2>
-            <p class="text-xl text-gray-700 mb-10">
-                Haz tu pedido o visítanos. Estaremos encantados de atenderte.
-            </p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="card bg-white shadow-xl">
-                    <div class="card-body items-center">
-                        <div class="text-5xl mb-4"><img src="/assets/img/whats-cafe.png" alt="" class="h-14 mr-2 inline-block"></div>
-                        <h3 class="card-title text-[#8B4513]">WhatsApp</h3>
-                        <p>+57 310 7573527</p>
-                    </div>
+    <!-- SECCIÓN COMBOS ESPECIALES -->
+    <section id="combos" class="py-20 px-4" style="background: linear-gradient(180deg, var(--color-cream) 0%, white 100%)">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-block bg-[#bf4031] text-white px-6 py-2 rounded-full text-sm font-bold mb-4 animate-pulse">
+                    🎉 ¡OFERTAS ESPECIALES! 🎉
                 </div>
-                
-                <div class="card bg-white shadow-xl">
-                    <div class="card-body items-center">
-                        <div class="text-5xl mb-4"><img src="/assets/img/ubicacion.png" class="h-14 mr-2 inline-block" alt=""></div>
-                        <h3 class="card-title text-[#8B4513]">Ubicación</h3>
-                        <p>Cali, Valle del Cauca</p>
-                        <p class="text-sm text-gray-600">Servicio a domicilio</p>
-                    </div>
-                </div>
-                
-                <div class="card bg-white shadow-xl">
-                    <div class="card-body items-center">
-                        <div class="text-5xl mb-4"><img src="/assets/img/reloj.png" class="h-14 mr-2 inline-block" alt=""></div>
-                        <h3 class="card-title text-[#8B4513]">Horarios</h3>
-                        <p>Lun - Sáb: 11am - 8pm</p>
-                        <p>Dom: 11am - 4pm</p>
-                    </div>
-                </div>
+                <h2 class="text-5xl md:text-6xl font-bold mb-4" style="color: var(--color-dark)">
+                    Combos Irresistibles
+                </h2>
+                <p class="text-lg" style="color: var(--color-brown)">
+                    Ahorra más con nuestras deliciosas combinaciones
+                </p>
+                <div class="w-24 h-1 mx-auto mt-4" style="background: linear-gradient(to right, var(--color-orange), var(--color-green))"></div>
             </div>
             
-            <div class="flex justify-center gap-6 text-4xl">
-                <a href="https://www.facebook.com/profile.php?id=61569994515915" target="_blank" class="hover:scale-110 transition"><img src="/assets/img/fb.png" class="h-10 mr-2 inline-block" alt="fb"></a>
-                <a href="https://www.instagram.com/arte_sanalcocina/" target="_blank" class="hover:scale-110 transition"><img src="/assets/img/instagram.png" class="h-14 mr-2 inline-block" alt=""></a></div>
+            <div id="combos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="col-span-full text-center py-12">
+                    <div class="loading loading-spinner loading-lg" style="color: var(--color-orange)"></div>
+                    <p class="mt-4 text-gray-500">Cargando combos especiales...</p>
+                </div>
+            </div>
         </div>
     </section>
+
+
+        <!-- MODAL DEL CARRITO -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-box max-w-2xl">
+            <h3 class="font-bold text-2xl mb-4" style="color: var(--color-dark)">
+                🛒 Tu Pedido
+            </h3>
+            
+            <div id="cart-items" class="space-y-4 max-h-96 overflow-y-auto mb-6">
+                <!-- Los items del carrito se cargarán aquí -->
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-xl font-bold">Total:</span>
+                <span id="cart-total" class="text-3xl font-bold" style="color: var(--color-orange)">$0</span>
+            </div>
+            
+            <div class="modal-action flex-col sm:flex-row gap-2">
+                <button onclick="cerrarCarrito()" class="btn btn-ghost">
+                    Seguir Comprando
+                </button>
+                <button onclick="vaciarCarrito()" class="btn btn-error btn-outline">
+                    Vaciar Carrito
+                </button>
+                <button onclick="enviarPedidoWhatsApp()" class="btn whatsapp-btn text-white">
+                    <img src="/assets/img/whatsapp.png" alt="" class="h-6 mr-2 inline-block">
+                    Enviar Pedido
+                </button>
+            </div>
+        </div>
+        <div class="modal-backdrop" onclick="cerrarCarrito()"></div>
+    </div>
 
     <!-- FOOTER -->
-    <footer class="footer footer-center p-10 bg-[#8B4513] text-white">
-        <div>
-            <p class="font-bold text-xl">
-                <img src="/assets/img/"  alt="">
-            </p> 
-            <p></p>
-            <p>Copyright © 2025 - Todos los derechos reservados</p>
+    <footer class="bg-[#432c05] text-white">
+        <div class="container mx-auto px-4 py-12 md:py-16 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 mb-8 max-w-4xl mx-auto md:mx-auto">
+                <!-- Columna 1 - Logo y Descripción -->
+                <div class="text-center md:text-center">
+                    <div class="flex justify-center mb-4">
+                        <img src="/assets/img/logo-blanco.png" alt="Logo" class="h-16">
+                    </div>
+                    <p class="text-gray-300 text-sm md:text-base">
+                        Sabor casero desde 2017. Preparamos cada plato con amor y dedicación.
+                    </p>
+                </div>
+
+                <!-- Columna 2 - Contacto -->
+                <div class="text-center">
+                    <h4 class="font-bold text-lg mb-6">Contacto</h4>
+                    <ul class="space-y-3 text-gray-300 text-sm md:text-base">
+                        <li class="flex items-center justify-center gap-2">
+                            <img src="/assets/img/ubicacion.png" class="h-4 w-4" alt=""> 
+                            <span>Cali, Valle del Cauca</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-2">
+                            <img src="/assets/img/whats-cafe.png" class="h-4 w-4" alt=""> 
+                            <span>+57 310 757 3527</span>
+                        </li>
+                        <li class="flex items-center justify-center gap-2">
+                            <img src="/assets/img/reloj.png" class="h-4 w-4" alt=""> 
+                            <span>Lun-Sáb: 11am - 8pm</span>
+                        </li>
+                    </ul>
+                    <div class="flex gap-3 mt-6 justify-center">
+                        <a href="https://www.facebook.com/profile.php?id=61569994515915" target="_blank" 
+                        class="btn btn-circle btn-sm bg-white hover:bg-[#D97757] border-0 transition-colors">
+                            <img src="/assets/img/fb.png" class="h-5" alt="Facebook">
+                        </a>
+                        <a href="https://www.instagram.com/arte_sanalcocina/" target="_blank" 
+                        class="btn btn-circle btn-sm bg-white hover:bg-[#D97757] border-0 transition-colors">
+                            <img src="/assets/img/instagram.png" class="h-5" alt="Instagram">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/20 pt-6 text-center text-gray-300 text-sm md:text-base">
+                <p>Copyright © 2025 Artesanal Cocina - Todos los derechos reservados</p>
+            </div>
         </div>
     </footer>
+    <script src="/assets/scripts/app.js"></script>
+    <script src="assets/scripts/carrito.js"></script>
+    <script src="/assets/scripts/config.js"></script>
 
-    <!-- SCRIPTS -->
-    <script src="config.js"></script>
-    <script src="app.js"></script>
 </body>
 </html>
