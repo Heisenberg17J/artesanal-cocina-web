@@ -1,5 +1,5 @@
 // ==========================================
-// CARGAR COMBOS ESPECIALES
+// CARGAR COMBOS ESPECIALES CON RESTRICCIONES
 // ==========================================
 
 async function cargarCombos() {
@@ -31,6 +31,16 @@ async function cargarCombos() {
             const cantidadEnCarrito = obtenerCantidadEnCarrito(combo.id);
             const descuento = combo.descuento || 0;
             
+            // Restricciones
+            const cantidadMinima = combo.cantidad_minima || 1;
+            const cantidadMaxima = combo.cantidad_maxima || null;
+            const mensajeRestriccion = combo.mensaje_restriccion || '';
+            
+            // Verificar si la cantidad actual cumple las restricciones
+            const cumpleMinimo = cantidadEnCarrito >= cantidadMinima;
+            const cumpleMaximo = !cantidadMaxima || cantidadEnCarrito <= cantidadMaxima;
+            const puedeAgregar = cumpleMinimo && cumpleMaximo;
+            
             const card = document.createElement('div');
             card.className = 'combo-card rounded-2xl shadow-2xl overflow-hidden relative';
             card.innerHTML = `
@@ -55,6 +65,15 @@ async function cargarCombos() {
                         <p class="text-white/90 text-lg mb-4 leading-relaxed">
                             ${combo.descripcion || 'Deliciosa combinación de nuestros mejores platos'}
                         </p>
+
+                        <!-- Mensaje de restricción -->
+                        ${mensajeRestriccion ? `
+                            <div class="bg-yellow-500/20 border-2 border-yellow-400 rounded-lg p-3 mb-4">
+                                <p class="text-sm text-yellow-100 font-medium">
+                                    ${mensajeRestriccion}
+                                </p>
+                            </div>
+                        ` : ''}
 
                         <!-- Items del combo -->
                         ${combo.items ? `
@@ -84,10 +103,15 @@ async function cargarCombos() {
                             <div class="combo-price">
                                 $${combo.precio.toLocaleString('es-CO')}
                             </div>
+                            ${cantidadMinima > 1 ? `
+                                <div class="text-xs px-3 py-1 rounded-full" style="background: rgba(255,255,255,0.2)">
+                                    Min: ${cantidadMinima} uni.
+                                </div>
+                            ` : ''}
                         </div>
 
-                        <!-- Botón Agregar -->
-                        <button onclick='agregarAlCarrito(${JSON.stringify(combo).replace(/'/g, "\\'")})'
+                        <!-- Botón Agregar (solo si no está en carrito) -->
+                        <button onclick='agregarComboAlCarrito(${JSON.stringify(combo).replace(/'/g, "\\'")})'
                                 data-plato-id="${combo.id}"
                                 data-action="add"
                                 class="btn btn-lg w-full mt-4 border-0 text-white ${cantidadEnCarrito > 0 ? 'hidden' : ''}"
@@ -95,31 +119,47 @@ async function cargarCombos() {
                             <span class="text-lg font-bold">Agregar Combo 🛒</span>
                         </button>
                         
-                        <!-- Controles de cantidad -->
+                        <!-- Controles de cantidad con restricciones -->
                         <div data-plato-id="${combo.id}" 
                              data-action="remove"
                              class="w-full mt-4 ${cantidadEnCarrito > 0 ? '' : 'hidden'}">
-                            <div class="flex items-center justify-between bg-white/20 backdrop-blur-sm rounded-xl p-4">
-                                <button onclick="quitarDelCarrito(${combo.id})" 
-                                        class="btn btn-error btn-sm">
-                                    Quitar
-                                </button>
-                                <div class="cantidad-control flex items-center gap-4">
-                                    <button onclick="decrementarCantidad(${combo.id})" 
-                                            class="btn btn-circle btn-sm"
-                                            style="background: rgba(255,255,255,0.2)">
-                                        −
+                            <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <button onclick="quitarDelCarrito(${combo.id})" 
+                                            class="btn btn-error btn-sm">
+                                        Quitar Todo
                                     </button>
-                                    <span data-plato-cantidad="${combo.id}" 
-                                          class="font-bold text-2xl">
-                                        ${cantidadEnCarrito}
-                                    </span>
-                                    <button onclick="incrementarCantidad(${combo.id})" 
-                                            class="btn btn-circle btn-sm"
-                                            style="background: var(--color-green); color: var(--color-dark)">
-                                        +
-                                    </button>
+                                    <div class="cantidad-control flex items-center gap-4">
+                                        <button onclick="decrementarCombo(${combo.id}, ${cantidadMinima})" 
+                                                class="btn btn-circle btn-sm ${cantidadEnCarrito <= cantidadMinima ? 'opacity-50 cursor-not-allowed' : ''}"
+                                                style="background: rgba(255,255,255,0.2)"
+                                                ${cantidadEnCarrito <= cantidadMinima ? 'disabled' : ''}>
+                                            −
+                                        </button>
+                                        <span data-plato-cantidad="${combo.id}" 
+                                              class="font-bold text-2xl">
+                                            ${cantidadEnCarrito}
+                                        </span>
+                                        <button onclick="incrementarCombo(${combo.id}, ${cantidadMaxima || 999})" 
+                                                class="btn btn-circle btn-sm ${cantidadMaxima && cantidadEnCarrito >= cantidadMaxima ? 'opacity-50 cursor-not-allowed' : ''}"
+                                                style="background: var(--color-green); color: var(--color-dark)"
+                                                ${cantidadMaxima && cantidadEnCarrito >= cantidadMaxima ? 'disabled' : ''}>
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
+                                
+                                <!-- Indicador de restricción -->
+                                ${!puedeAgregar ? `
+                                    <div class="text-center text-xs text-yellow-200 mt-2">
+                                        ${!cumpleMinimo ? `⚠️ Cantidad mínima: ${cantidadMinima} unidades` : ''}
+                                        ${!cumpleMaximo ? `⚠️ Cantidad máxima: ${cantidadMaxima} unidades` : ''}
+                                    </div>
+                                ` : `
+                                    <div class="text-center text-xs text-green-200 mt-2">
+                                        ✓ Cumple con los requisitos
+                                    </div>
+                                `}
                             </div>
                         </div>
                     </div>
@@ -139,6 +179,98 @@ async function cargarCombos() {
     }
 }
 
+// ==========================================
+// FUNCIONES ESPECIALES PARA COMBOS
+// ==========================================
+
+/**
+ * Agregar combo al carrito con validación de cantidad mínima
+ */
+function agregarComboAlCarrito(combo) {
+    const cantidadMinima = combo.cantidad_minima || 1;
+    
+    // Buscar si ya existe en el carrito
+    const index = carrito.findIndex(item => item.id === combo.id);
+    
+    if (index !== -1) {
+        // Si ya existe, incrementar
+        carrito[index].cantidad += cantidadMinima;
+    } else {
+        // Si no existe, agregar con la cantidad mínima
+        carrito.push({
+            id: combo.id,
+            nombre: combo.nombre,
+            precio: combo.precio,
+            imagen_url: combo.imagen_url,
+            cantidad: cantidadMinima,
+            tipo: 'combo',
+            cantidad_minima: cantidadMinima,
+            cantidad_maxima: combo.cantidad_maxima || null
+        });
+    }
+    
+    guardarCarrito();
+    
+    if (cantidadMinima > 1) {
+        mostrarNotificacion(
+            `${combo.nombre} agregado (${cantidadMinima} unidades - mínimo requerido)`, 
+            'success'
+        );
+    } else {
+        mostrarNotificacion(`${combo.nombre} agregado al carrito`, 'success');
+    }
+    
+    actualizarBotonesPlato(combo.id);
+}
+
+/**
+ * Incrementar combo con validación de máximo
+ */
+function incrementarCombo(comboId, cantidadMaxima) {
+    const index = carrito.findIndex(item => item.id === comboId);
+    
+    if (index !== -1) {
+        const nuevaCantidad = carrito[index].cantidad + 1;
+        
+        // Validar máximo
+        if (cantidadMaxima && nuevaCantidad > cantidadMaxima) {
+            mostrarNotificacion(
+                `⚠️ Cantidad máxima permitida: ${cantidadMaxima} unidades`, 
+                'warning'
+            );
+            return;
+        }
+        
+        carrito[index].cantidad = nuevaCantidad;
+        guardarCarrito();
+        actualizarBotonesPlato(comboId);
+        renderizarCarrito();
+    }
+}
+
+/**
+ * Decrementar combo con validación de mínimo
+ */
+function decrementarCombo(comboId, cantidadMinima) {
+    const index = carrito.findIndex(item => item.id === comboId);
+    
+    if (index !== -1) {
+        const nuevaCantidad = carrito[index].cantidad - 1;
+        
+        // Si llega al mínimo o menos, quitar del carrito
+        if (nuevaCantidad < cantidadMinima) {
+            if (confirm(`¿Deseas eliminar este combo del carrito? (No cumple el mínimo de ${cantidadMinima} unidades)`)) {
+                quitarDelCarrito(comboId);
+            }
+            return;
+        }
+        
+        carrito[index].cantidad = nuevaCantidad;
+        guardarCarrito();
+        actualizarBotonesPlato(comboId);
+        renderizarCarrito();
+    }
+}
 
 // ==========================================
 // CARGAR GALERÍA DE FOTOS
@@ -155,7 +287,6 @@ async function cargarGaleria() {
     }
     
     try {
-        // Obtener lista de archivos del bucket 'galeria'
         const { data: files, error } = await supabase
             .storage
             .from('galeria')
@@ -180,7 +311,6 @@ async function cargarGaleria() {
 
         debug('Archivos encontrados:', files);
 
-        // Filtrar solo imágenes
         const imagenes = files.filter(file => 
             file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)
         );
@@ -198,12 +328,9 @@ async function cargarGaleria() {
             return;
         }
 
-        // Limpiar contenedor
         container.innerHTML = '';
 
-        // Crear elemento para cada imagen
         imagenes.forEach(file => {
-            // Obtener URL pública de cada imagen
             const { data } = supabase.storage
                 .from('galeria')
                 .getPublicUrl(file.name);
@@ -236,7 +363,6 @@ async function cargarGaleria() {
 }
 
 
-
 // ==========================================
 // CARGAR MENÚ REGULAR
 // ==========================================
@@ -264,12 +390,14 @@ async function cargarMenu() {
         const arroces = platos.filter(p => p.categoria === 'arroces');
         const ensaladas = platos.filter(p => p.categoria === 'ensaladas');
         const carnes_tradicionales = platos.filter(p => p.categoria === 'carnes-tradicionales');
+        const carnes_especiales = platos.filter(p => p.categoria === 'carnes-especiales');
 
         // Renderizar cada categoría
         renderPlatosHorizontal('entradas', entradas);
         renderPlatosHorizontal('arroces', arroces);
         renderPlatosHorizontal('ensaladas', ensaladas);
         renderPlatosHorizontal('carnes-tradicionales', carnes_tradicionales);
+        renderPlatosHorizontal('carnes-especiales', carnes_especiales);
 
     } catch (error) {
         console.error('💥 Error crítico al cargar menú:', error);
@@ -360,12 +488,21 @@ function renderPlatosHorizontal(containerId, platos) {
 }
 
 // ==========================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN CON ORDEN
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Iniciando aplicación...');
     
+    // PRIMERO: Asegurar que el carrito esté inicializado
+    if (typeof inicializarCarrito === 'function') {
+        inicializarCarrito();
+    }
+    
+    // Pequeña pausa para asegurar sincronización
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // SEGUNDO: Cargar datos
     await Promise.all([
         cargarCombos(),
         cargarMenu(),
@@ -374,5 +511,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     console.log('✅ Aplicación inicializada');
 });
-
-

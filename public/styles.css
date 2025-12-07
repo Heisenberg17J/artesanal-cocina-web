@@ -191,6 +191,8 @@ h1, h2, h3 {
     color: var(--color-dark) !important;
 }
 
+/* Estilos para la sección "Nosotros" */
+
 .hero-nosotros {
     background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-brown) 50%, var(--color-dark) 100%);
     position: relative;

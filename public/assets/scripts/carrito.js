@@ -91,14 +91,20 @@ function incrementarCantidad(platoId) {
 function decrementarCantidad(platoId) {
     const index = carrito.findIndex(item => item.id === platoId);
     if (index !== -1) {
-        if (carrito[index].cantidad > 1) {
-            carrito[index].cantidad--;
+        const item = carrito[index];
+        
+        // Verificar si es un combo con restricción de mínimo
+        const cantidadMinima = item.cantidad_minima || 1;
+        
+        if (item.cantidad > cantidadMinima) {
+            // Si está por encima del mínimo, decrementar
+            item.cantidad--;
             guardarCarrito();
-            actualizarBotonesPlato(platoId); // ⭐ AÑADIDO
+            actualizarBotonesPlato(platoId);
             renderizarCarrito();
-        } else {
-            quitarDelCarrito(platoId);
-        }
+        } else if (item.cantidad === cantidadMinima) {
+                quitarDelCarrito(platoId);
+        } 
     }
 }
 
@@ -271,7 +277,7 @@ function renderizarCarrito() {
 }
 
 /**
- * Envía el pedido por WhatsApp
+ * Envía el pedido por WhatsApp con validación de restricciones
  */
 function enviarPedidoWhatsApp() {
     if (carrito.length === 0) {
@@ -279,16 +285,41 @@ function enviarPedidoWhatsApp() {
         return;
     }
     
+    // Validar restricciones antes de enviar
+    let erroresValidacion = [];
+    
+    carrito.forEach(item => {
+        if (item.tipo === 'combo' || item.cantidad_minima) {
+            const cantMin = item.cantidad_minima || 1;
+            const cantMax = item.cantidad_maxima;
+            
+            if (item.cantidad < cantMin) {
+                erroresValidacion.push(`⚠️ ${item.nombre}: mínimo ${cantMin} unidades (tienes ${item.cantidad})`);
+            }
+            
+            if (cantMax && item.cantidad > cantMax) {
+                erroresValidacion.push(`⚠️ ${item.nombre}: máximo ${cantMax} unidades (tienes ${item.cantidad})`);
+            }
+        }
+    });
+    
+    // Si hay errores, mostrarlos y no enviar
+    if (erroresValidacion.length > 0) {
+        alert('❌ No se puede enviar el pedido:\n\n' + erroresValidacion.join('\n'));
+        return;
+    }
+    
     // Construir mensaje
     let mensaje = '🍽️ *MI PEDIDO*\n\n';
     
     carrito.forEach(item => {
-        mensaje += `• ${item.cantidad}x ${item.nombre}\n`;
-        mensaje += `  $${item.precio.toLocaleString('es-CO')} c/u = $${(item.precio * item.cantidad).toLocaleString('es-CO')}\n\n`;
+        const tipoMarca = item.tipo === 'combo' ? '🎁' : '•';
+        mensaje += `${tipoMarca} ${item.cantidad}x ${item.nombre}\n`;
+        mensaje += `  ${item.precio.toLocaleString('es-CO')} c/u = ${(item.precio * item.cantidad).toLocaleString('es-CO')}\n\n`;
     });
     
     const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-    mensaje += `💰 *TOTAL: $${total.toLocaleString('es-CO')}*\n\n`;
+    mensaje += `💰 *TOTAL: ${total.toLocaleString('es-CO')}*\n\n`;
     mensaje += '¡Gracias por tu pedido! 😊';
     
     // Codificar y enviar
