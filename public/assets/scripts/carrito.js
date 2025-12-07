@@ -279,58 +279,29 @@ function renderizarCarrito() {
 /**
  * Envía el pedido por WhatsApp con validación de restricciones
  */
-function enviarPedidoWhatsApp() {
-    if (carrito.length === 0) {
-        mostrarNotificacion('El carrito está vacío', 'warning');
-        return;
-    }
-    
-    // Validar restricciones antes de enviar
-    let erroresValidacion = [];
-    
+function construirMensajeWhatsApp(carrito) {
+    let mensaje = '*** MI PEDIDO ***\n';
+    mensaje += '=============================\n\n';
+
     carrito.forEach(item => {
-        if (item.tipo === 'combo' || item.cantidad_minima) {
-            const cantMin = item.cantidad_minima || 1;
-            const cantMax = item.cantidad_maxima;
-            
-            if (item.cantidad < cantMin) {
-                erroresValidacion.push(`⚠️ ${item.nombre}: mínimo ${cantMin} unidades (tienes ${item.cantidad})`);
-            }
-            
-            if (cantMax && item.cantidad > cantMax) {
-                erroresValidacion.push(`⚠️ ${item.nombre}: máximo ${cantMax} unidades (tienes ${item.cantidad})`);
-            }
-        }
+        const icono = item.tipo === 'combo' ? '[+]' : '[•]';
+        const subtotal = (item.precio * item.cantidad).toLocaleString('es-CO');
+
+        mensaje += `${icono} ${item.cantidad} x ${item.nombre}\n`;
+        mensaje += `     ${item.precio.toLocaleString('es-CO')} c/u  ->  ${subtotal}\n\n`;
     });
-    
-    // Si hay errores, mostrarlos y no enviar
-    if (erroresValidacion.length > 0) {
-        alert('❌ No se puede enviar el pedido:\n\n' + erroresValidacion.join('\n'));
-        return;
-    }
-    
-    // Construir mensaje
-    let mensaje = '🍽️ *MI PEDIDO*\n\n';
-    
-    carrito.forEach(item => {
-        const tipoMarca = item.tipo === 'combo' ? '🎁' : '•';
-        mensaje += `${tipoMarca} ${item.cantidad}x ${item.nombre}\n`;
-        mensaje += `  ${item.precio.toLocaleString('es-CO')} c/u = ${(item.precio * item.cantidad).toLocaleString('es-CO')}\n\n`;
-    });
-    
-    const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-    mensaje += `💰 *TOTAL: ${total.toLocaleString('es-CO')}*\n\n`;
-    mensaje += '¡Gracias por tu pedido! 😊';
-    
-    // Codificar y enviar
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${mensajeCodificado}`;
-    
-    window.open(url, '_blank');
-    
-    // Opcional: vaciar carrito después de enviar
-    // vaciarCarrito();
+
+    const total = carrito
+        .reduce((sum, item) => sum + item.precio * item.cantidad, 0)
+        .toLocaleString('es-CO');
+
+    mensaje += '=============================\n';
+    mensaje += `TOTAL: ${total}\n\n`;
+    mensaje += '¡Gracias por tu pedido!';
+
+    return mensaje;
 }
+
 
 /**
  * Muestra una notificación temporal
@@ -382,4 +353,5 @@ document.head.appendChild(style);
 // Inicializar carrito al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     inicializarCarrito();
+
 });
