@@ -27,7 +27,7 @@ async function cargarCombos() {
         container.innerHTML = '';
 
         combos.forEach(combo => {
-            const imagenUrl = combo.imagen_url || 'https://via.placeholder.com/600x400?text=Combo+Especial';
+            const imagenUrl = combo.imagen_url || 'https://sxojkdrkouhokhylnkjj.supabase.co/storage/v1/object/public/platos/comida-default.jpg';
             const cantidadEnCarrito = obtenerCantidadEnCarrito(combo.id);
             const descuento = combo.descuento || 0;
             
@@ -510,4 +510,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     ]);
     
     console.log('✅ Aplicación inicializada');
+
 });
