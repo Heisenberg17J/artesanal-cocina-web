@@ -278,3 +278,40 @@ h1, h2, h3 {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
 }
+
+
+/* Estilos para validación de campos */
+
+/* Campo con error - borde rojo */
+.input-error,
+.select-error {
+    border: 2px solid #ef4444 !important;
+    background-color: #fef2f2;
+}
+
+/* Campo válido - borde verde */
+.input-success,
+.select-success {
+    border: 2px solid #22c55e !important;
+    background-color: #f0fdf4;
+}
+
+/* Transición suave para los bordes */
+input, select, textarea {
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Focus states */
+.input-error:focus,
+.select-error:focus {
+    outline: none;
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.input-success:focus,
+.select-success:focus {
+    outline: none;
+    border-color: #16a34a !important;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}

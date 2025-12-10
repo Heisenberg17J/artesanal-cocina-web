@@ -23,7 +23,7 @@
 <body class="bg-[#FFF8DC]">
 
     <!-- NAVBAR -->
-    <div class="navbar bg-white shadow-lg sticky top-0 z-50">
+    <div class="navbar bg-[#EDDBC0] shadow-lg sticky top-0 z-50">
         <div class="navbar-start">
             <div class="dropdown">
                 <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -41,7 +41,7 @@
         </div>
         
         <div class="navbar-center lg:pr-8">
-            <a href="#inicio" class="text-xl font-bold text-[#8B4513]">
+            <a href="/index.html" class="text-xl font-bold text-[#8B4513]">
                 <img src="/assets/img/logo-negro.png" alt="artesanal-logo" class="h-14">
             </a>
         </div>
@@ -74,16 +74,16 @@
             <img src="/assets/img/logo-sin-letra.png" alt="Logo" class="mx-auto mb-8 h-40 drop-shadow-2xl pl-4">
 
             <h1 class="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">
-                Disfruta tus cenas con artesanal
+                ¡ Amamos cocinar !
             </h1>
-            <a href="https://drive.google.com/file/d/1-Irld1WaXlFBnUn1eGuxL56H4KeCz4uq/view?usp=sharing" class="btn btn-lg bg-white text-[#8B4513] hover:bg-gray-100 text-xl px-8 py-4 rounded-full shadow-2xl border-0">
+            <a href="/menu.html" class="btn btn-lg bg-[#EDDBC0] text-[#8B4513] hover:bg-[#D9C9A6] text-xl px-8 py-4 rounded-full shadow-2xl border-0">
                 Ver Nuestro Menú
             </a>
         </div>
     </section>
 
     <!-- ABOUT SECTION -->
-    <section id="about" class="py-20 px-4 bg-white">
+    <section id="about" class="py-20 px-4 bg-[#FFF8DC]">
         <div class="container mx-auto max-w-7xl">
             <!-- Nuestra Historia -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-justify">
@@ -98,12 +98,12 @@
                 <div class="order-1 md:order-2">
                     <h6 class="text-[#D97757] font-semibold uppercase tracking-wide mb-2">Somos artesanal</h6>
                     <h3 class="text-4xl font-bold text-[#8B4513] mb-6">Cocina Tradicional</h3>
-                    <p class="text-gray-700 text-lg leading-relaxed mb-4">
+                    <p class="text-[#432c05] text-lg leading-relaxed mb-4">
                         Artesanal nació en 2017, en un momento en el que la vida puso una necesidad sobre la mesa:
                         ayudar a alguien que lo necesitaba.
                         No como un negocio, no como un plan… sino como un acto de solidaridad. 
                     </p>
-                    <p class="text-gray-700 text-lg leading-relaxed">
+                    <p class="text-[#432c05] text-lg leading-relaxed">
                         En casa había una cocinera con un talento especial:
                         esas manos que no solo preparan comida, sino que curan, unen y reconfortan.
                         Alguien capaz de convertir ingredientes sencillos en sabores que llenan el alma...
@@ -117,7 +117,7 @@
     </section>
 
     <!-- SECCIÓN COMBOS ESPECIALES -->
-    <section id="combos" class="py-20 px-4" style="background: linear-gradient(180deg, var(--color-cream) 0%, white 100%)">
+    <section id="combos" class="py-20 px-4" style="background: linear-gradient(180deg, var(--color-cream) 0%, #EDDBC0)">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <div class="inline-block bg-[#bf4031] text-white px-6 py-2 rounded-full text-sm font-bold mb-4 animate-pulse">
@@ -141,33 +141,141 @@
         </div>
     </section>
 
-
-        <!-- MODAL DEL CARRITO -->
+    <!-- MODAL DEL CARRITO -->
     <div id="cart-modal" class="modal">
-        <div class="modal-box max-w-2xl">
-            <h3 class="font-bold text-2xl mb-4" style="color: var(--color-dark)">
+        <div class="modal-box max-w-3xl">
+            <h3 class="font-bold text-2xl mb-6" style="color: var(--color-dark)">
                 🛒 Tu Pedido
             </h3>
+
+            <!-- FORMULARIO DE DATOS DE ENTREGA (incluir desde componente) -->
+            <div class="bg-base-200 rounded-lg p-6 mb-6">
+                <h4 class="font-semibold text-lg mb-4" style="color: var(--color-dark)">
+                    📋 Datos de Entrega
+                </h4>
+                
+                <form id="delivery-form" class="space-y-4">
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Nombre completo *</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="customer-name" 
+                            placeholder="Ej: Juan Pérez" 
+                            class="input input-bordered w-full" 
+                            required>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Correo electrónico *</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="customer-email" 
+                            placeholder="correo@ejemplo.com" 
+                            class="input input-bordered w-full" 
+                            required>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Número de teléfono *</span>
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="customer-phone" 
+                            placeholder="Ej: 3001234567" 
+                            class="input input-bordered w-full" 
+                            required>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Dirección de entrega *</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="customer-address" 
+                            placeholder="Calle, número, barrio, referencias" 
+                            class="input input-bordered w-full" 
+                            required>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Zona de la ciudad *</span>
+                        </label>
+                        <select id="delivery-zone" class="select select-bordered w-full" required>
+                            <option value="" disabled selected>Selecciona tu zona</option>
+                            <option value="Norte">Norte</option>
+                            <option value="Sur">Sur</option>
+                            <option value="Oriente">Oriente</option>
+                            <option value="Occidente">Occidente</option>
+                            <option value="Centro">Centro</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text font-medium">Fecha de entrega *</span>
+                            </label>
+                            <input 
+                                type="date" 
+                                id="delivery-date" 
+                                class="input input-bordered w-full" 
+                                required>
+                        </div>
+                        
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text font-medium">Hora preferida *</span>
+                            </label>
+                            <input 
+                                type="time" 
+                                id="delivery-time" 
+                                class="input input-bordered w-full" 
+                                required>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        * Todos los campos son obligatorios
+                    </p>
+                </form>
+            </div>
             
-            <div id="cart-items" class="space-y-4 max-h-96 overflow-y-auto mb-6">
-                <!-- Los items del carrito se cargarán aquí -->
+            <!-- ITEMS DEL CARRITO -->
+            <div class="mb-6">
+                <h4 class="font-semibold text-lg mb-3" style="color: var(--color-dark)">
+                    🍰 Productos en tu carrito
+                </h4>
+                <div id="cart-items" class="space-y-3 max-h-80 overflow-y-auto bg-base-200 rounded-lg p-4">
+                    <!-- Los items del carrito se cargarán aquí dinámicamente -->
+                </div>
             </div>
             
             <div class="divider"></div>
             
-            <div class="flex justify-between items-center mb-6">
-                <span class="text-xl font-bold">Total:</span>
-                <span id="cart-total" class="text-3xl font-bold" style="color: var(--color-orange)">$0</span>
+            <!-- TOTAL -->
+            <div class="flex justify-between items-center mb-6 bg-base-200 p-4 rounded-lg">
+                <span class="text-xl font-bold">Total a pagar:</span>
+                <span id="cart-total" class="text-3xl font-bold" style="color: var(--color-orange)">
+                    $0
+                </span>
             </div>
             
-            <div class="modal-action flex-col sm:flex-row gap-2">
+            <!-- BOTONES DE ACCIÓN -->
+            <div class="modal-action flex-col sm:flex-row gap-3">
                 <button onclick="cerrarCarrito()" class="btn btn-ghost">
                     Seguir Comprando
                 </button>
                 <button onclick="vaciarCarrito()" class="btn btn-error btn-outline">
                     Vaciar Carrito
                 </button>
-                <button onclick="enviarPedidoWhatsApp()" class="btn whatsapp-btn text-white">
+                <button onclick="procesarYEnviarPedido()" class="btn whatsapp-btn text-white">
                     <img src="/assets/img/whatsapp.png" alt="" class="h-6 mr-2 inline-block">
                     Enviar Pedido
                 </button>
@@ -227,8 +335,8 @@
     </footer>
     <script src="/assets/scripts/app.js"></script>
     <script src="assets/scripts/carrito.js"></script>
+    <script src="/assets/scripts/supabase-pedidos.js"></script>
     <script src="/assets/scripts/config.js"></script>
 
 </body>
-
 </html>

@@ -27,7 +27,7 @@ async function cargarCombos() {
         container.innerHTML = '';
 
         combos.forEach(combo => {
-            const imagenUrl = combo.imagen_url || 'https://sxojkdrkouhokhylnkjj.supabase.co/storage/v1/object/public/platos/comida-default.jpg';
+            const imagenUrl = combo.imagen_url || 'https://via.placeholder.com/600x400?text=Combo+Especial';
             const cantidadEnCarrito = obtenerCantidadEnCarrito(combo.id);
             const descuento = combo.descuento || 0;
             
@@ -45,6 +45,7 @@ async function cargarCombos() {
             card.className = 'combo-card rounded-2xl shadow-2xl overflow-hidden relative';
             card.innerHTML = `
                 ${descuento > 0 ? `
+
                     <div class="combo-badge">
                         💥 ${descuento}% OFF
                     </div>
@@ -58,7 +59,6 @@ async function cargarCombos() {
                              class="w-full h-64 object-cover transform hover:scale-110 transition duration-500"
                              onerror="this.src='https://via.placeholder.com/600x400?text=Combo+Especial'">
                     </div>
-
                     <!-- Contenido -->
                     <div class="text-white">
                         <h3 class="text-3xl font-bold mb-3">${combo.nombre}</h3>
@@ -429,7 +429,7 @@ function renderPlatosHorizontal(containerId, platos) {
         const cantidadEnCarrito = obtenerCantidadEnCarrito(plato.id);
         
         const card = document.createElement('div');
-        card.className = 'plato-card card bg-base-100 shadow-xl flex-shrink-0';
+        card.className = 'plato-card card bg-[#E2AB65] shadow-xl flex-shrink-0';
         card.innerHTML = `
             <figure class="h-48 overflow-hidden">
                 <img src="${imagenUrl}" 
@@ -439,7 +439,7 @@ function renderPlatosHorizontal(containerId, platos) {
             </figure>
             <div class="card-body p-4">
                 <h2 class="card-title text-lg" style="color: var(--color-dark)">${plato.nombre}</h2>
-                <p class="text-gray-600 text-sm line-clamp-3">
+                <p class="text-white text-sm line-clamp-3">
                     ${plato.descripcion || 'Delicioso plato preparado con amor'}
                 </p>
                 <div class="flex justify-between items-center mt-4">
@@ -510,5 +510,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     ]);
     
     console.log('✅ Aplicación inicializada');
-
 });
