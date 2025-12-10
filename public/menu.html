@@ -273,11 +273,13 @@
                             <label class="label">
                                 <span class="label-text font-medium">Hora preferida *</span>
                             </label>
-                            <input 
-                                type="time" 
-                                id="delivery-time" 
-                                class="input input-bordered w-full" 
-                                required>
+                            <select id="delivery-time" class="select select-bordered w-full" required>
+                                <option value="" disabled selected>Selecciona una hora</option>
+                                <option value="9:00 AM a 10:00 AM">9:00 AM a 10:00 AM</option>
+                                <option value="12:00 PM a 1:00 PM">12:00 PM a 1:00 PM</option>
+                                <option value="3:00 PM a 4:00 PM">3:00 PM a 4:00 PM</option>
+                                <option value="7:00 PM a 8:00 PM">7:00 PM a 8:00 PM</option>
+                            </select>
                         </div>
                     </div>
 

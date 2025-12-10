@@ -79,7 +79,7 @@ async function guardarPedidoEnSupabase(datosCliente, itemsCarrito) {
  */
 function construirDetallePedido(items) {
     return items.map(item => 
-        `${item.cantidad}x ${item.nombre} - $${(item.precio * item.cantidad).toLocaleString('es-CO')}`
+        `${item.cantidad}x ${item.nombre}`
     ).join('\n');
 }
 
