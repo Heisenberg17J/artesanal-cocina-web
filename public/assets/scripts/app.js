@@ -391,6 +391,7 @@ async function cargarMenu() {
         const ensaladas = platos.filter(p => p.categoria === 'ensaladas');
         const carnes_tradicionales = platos.filter(p => p.categoria === 'carnes-tradicionales');
         const carnes_especiales = platos.filter(p => p.categoria === 'carnes-especiales');
+        const adiciones = platos.filter(p => p.categoria === 'adiciones');
 
         // Renderizar cada categoría
         renderPlatosHorizontal('entradas', entradas);
@@ -398,6 +399,8 @@ async function cargarMenu() {
         renderPlatosHorizontal('ensaladas', ensaladas);
         renderPlatosHorizontal('carnes-tradicionales', carnes_tradicionales);
         renderPlatosHorizontal('carnes-especiales', carnes_especiales);
+        renderPlatosHorizontal('adiciones', adiciones);
+        
 
     } catch (error) {
         console.error('💥 Error crítico al cargar menú:', error);
@@ -443,7 +446,7 @@ function renderPlatosHorizontal(containerId, platos) {
                     ${plato.descripcion || 'Delicioso plato preparado con amor'}
                 </p>
                 <div class="flex justify-between items-center mt-4">
-                    <span class="text-xl font-bold" style="color: var(--color-orange)">
+                    <span class="text-xl font-bold" style="color: var(--color-dark)">
                         $${plato.precio.toLocaleString('es-CO')}
                     </span>
                 </div>
@@ -461,7 +464,7 @@ function renderPlatosHorizontal(containerId, platos) {
                      class="w-full mt-2 ${cantidadEnCarrito > 0 ? '' : 'hidden'}">
                     <div class="flex items-center justify-between rounded-lg p-2" style="background: var(--color-cream)">
                         <button onclick="quitarDelCarrito(${plato.id})" 
-                                class="btn btn-sm btn-error">
+                                class="btn btn-sm btn-error bg-[#bf4031] text-white border-0">
                             Quitar
                         </button>
                         <div class="cantidad-control">

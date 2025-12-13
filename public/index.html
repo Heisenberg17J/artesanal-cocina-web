@@ -151,7 +151,7 @@
             <!-- FORMULARIO DE DATOS DE ENTREGA (incluir desde componente) -->
             <div class="bg-base-200 rounded-lg p-6 mb-6">
                 <h4 class="font-semibold text-lg mb-4" style="color: var(--color-dark)">
-                    📋 Datos de Entrega
+                    Datos de Entrega
                 </h4>
                 
                 <form id="delivery-form" class="space-y-4">
@@ -232,8 +232,8 @@
                         <div class="form-control">
                             <label class="label">
                                 <span class="label-text font-medium">Hora preferida *</span>
-                                <p class="text-sm text-gray-500 mb-2">Tu pedido llegará en este lapso de tiempo</p>
                             </label>
+                                <p class="text-sm text-gray-500 mb-2">Tu pedido llegará en este lapso de tiempo</p>
                             <select id="delivery-time" class="select select-bordered w-full" required>
                                 <option value="" disabled selected>Selecciona una hora</option>
                                 <option value="9:00 AM a 10:00 AM">9:00 AM a 10:00 AM</option>
@@ -253,7 +253,7 @@
             <!-- ITEMS DEL CARRITO -->
             <div class="mb-6">
                 <h4 class="font-semibold text-lg mb-3" style="color: var(--color-dark)">
-                    🍰 Productos en tu carrito
+                    Productos en tu carrito
                 </h4>
                 <div id="cart-items" class="space-y-3 max-h-80 overflow-y-auto bg-base-200 rounded-lg p-4">
                     <!-- Los items del carrito se cargarán aquí dinámicamente -->
@@ -269,6 +269,7 @@
                     $0
                 </span>
             </div>
+            <span class="text-sm text-gray-500">* El precio no incluye domicilio</span>
             
             <!-- BOTONES DE ACCIÓN -->
             <div class="modal-action flex-col sm:flex-row gap-3">
@@ -342,5 +343,4 @@
     <script src="/assets/scripts/config.js"></script>
 
 </body>
-
 </html>
