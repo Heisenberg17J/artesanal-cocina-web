@@ -432,7 +432,7 @@ function construirMensajeWhatsApp(carrito, datosCliente) {
     const total = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
     
     // Mensaje estructurado con formato legible y procesable
-    let mensaje = '  *NUEVO PEDIDO - ARTESANAL COCINA  *\n';
+    let mensaje = '  *ORDEN DE PEDIDO - ARTESANAL COCINA  *\n';
     mensaje += '═════════════════════════════\n\n';
     
     // DATOS DEL CLIENTE (formato clave:valor para fácil procesamiento)
@@ -540,4 +540,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setTimeout(inicializarValidacion, 100);
+
 });
